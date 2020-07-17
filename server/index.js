@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const { User } = require('./model/Users');
+const { auth } = require('./middleware/auth');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -50,12 +51,35 @@ app.post('/api/users/login', (req, res) => {
       user.createToken((err, user) => {
         if (err) return res.status(400).send(err);
         // 토큰 저장 => 쿠키
-        res.cookie('auto', user.token).status(200).json({
+        res.cookie('auth', user.token).status(200).json({
           loginSucess: true,
           userId: user._id,
         });
       });
     });
+  });
+});
+
+// 로그인 유저 확인
+app.post('/api/users/auth', auth, (req, res) => {
+  // auth 미들웨어 수행 시 req에서 user 정보 조회 가능
+  res.status(200).json({
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    isAdmin: req.user.role === 0 ? false : true, // role: 1 > admin
+    isAuth: true,
+    role: req.user.role,
+    image: req.user.image,
+  });
+});
+
+app.get('/api/users/logout', auth, (req, res) => {
+  // auth 미들웨어 수행 시 req에서 user 정보 조회 가능
+  // user를 찾아 token 제거
+  User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
+    if (err) return res.json({ logoutSuccess: false, err });
+    return res.status(200).json({ logoutSuccess: true });
   });
 });
 

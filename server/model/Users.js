@@ -68,6 +68,18 @@ userSchema.methods.createToken = function (cb) {
   });
 };
 
+userSchema.statics.findByToken = function (token, cb) {
+  const user = this;
+  // token 복호화
+  // user._id + 'secretToken' = token
+  jwt.verify(token, 'secretToken', (err, decoded_id) => {
+    user.findOne({ _id: decoded_id, token: token }, (err, user) => {
+      if (err) return cb(err);
+      return cb(null, user);
+    });
+  });
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User };
