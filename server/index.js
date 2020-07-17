@@ -25,6 +25,8 @@ mongoose
 
 app.get('/', (req, res) => res.send('hello'));
 
+app.get('/api/hello', (req, res) => res.json({ message: 'hello' }));
+
 app.post('/api/users/register', (req, res) => {
   // 클라이언트에서 회원 정보를 전달 받음.
   const user = new User(req.body);
