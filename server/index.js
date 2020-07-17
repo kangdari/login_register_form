@@ -25,8 +25,6 @@ mongoose
 
 app.get('/', (req, res) => res.send('hello'));
 
-app.get('/api/hello', (req, res) => res.json({ message: 'hello' }));
-
 app.post('/api/users/register', (req, res) => {
   // 클라이언트에서 회원 정보를 전달 받음.
   const user = new User(req.body);
@@ -43,18 +41,18 @@ app.post('/api/users/login', (req, res) => {
   // 요청된 이메일 체크
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
-      return res.json({ loginSucess: false, message: '이메일이 존재하지 않습니다.' });
+      return res.json({ loginSuccess: false, message: '이메일이 존재하지 않습니다.' });
     }
     // 비밀번호 체크
     user.comparePassword(req.body.password, (err, isMatch) => {
       // 비밀번호가 틀린 경우
-      if (!isMatch) return res.json({ loginSucess: false, message: '비밀번호가 틀렸습니다.' });
+      if (!isMatch) return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.' });
       // 비밀번호가 맞은 경우 토큰 생성
       user.createToken((err, user) => {
         if (err) return res.status(400).send(err);
         // 토큰 저장 => 쿠키
         res.cookie('auth', user.token).status(200).json({
-          loginSucess: true,
+          loginSuccess: true,
           userId: user._id,
         });
       });
