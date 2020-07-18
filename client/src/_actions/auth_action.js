@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_CHECK } from './types';
+import { AUTH_CHECK, LOGOUT } from './types';
 
 export const authCheck = () => {
   const request = axios.get(`/api/users/auth`).then((res) => res.data);
@@ -8,4 +8,9 @@ export const authCheck = () => {
     type: AUTH_CHECK,
     payload: request,
   };
+};
+
+export const logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT });
+  await axios.get(`api/users/logout`);
 };

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/kangdari/login_register_form#readme",
   "dependencies": {
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.2.0",
+    "styled-reset": "^4.2.1"
   }
 }

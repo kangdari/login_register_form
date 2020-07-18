@@ -1,23 +1,25 @@
 import React from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
-const Landingpage = ({ history }) => {
-  const onClickHandler = () => {
-    axios.get('/api/users/logout').then((res) => {
-      if (res.data.logoutSuccess) {
-        history.push('/login');
-      } else {
-        alert('logout 실패');
-      }
-    });
-  };
+import styled from 'styled-components';
 
+import NavBar from '../../Navbar/Navbar';
+
+const Landingpage = () => {
   return (
-    <div>
-      <h2>Landingpage</h2>
-      <button onClick={onClickHandler}>로그아웃</button>
-    </div>
+    <>
+      <NavBar />
+      <LandingCondtainer>
+        <h2>Landingpage</h2>
+      </LandingCondtainer>
+    </>
   );
 };
 
-export default withRouter(Landingpage);
+const LandingCondtainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export default Landingpage;
