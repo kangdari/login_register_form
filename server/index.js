@@ -61,7 +61,7 @@ app.post('/api/users/login', (req, res) => {
 });
 
 // 로그인 유저 확인
-app.post('/api/users/auth', auth, (req, res) => {
+app.get('/api/users/auth', auth, (req, res) => {
   // auth 미들웨어 수행 시 req에서 user 정보 조회 가능
   res.status(200).json({
     _id: req.user._id,

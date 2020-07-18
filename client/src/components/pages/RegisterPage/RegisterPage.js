@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
@@ -62,7 +63,7 @@ const RegisterPage = ({ history }) => {
   );
 };
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
 
 const ReisgerContainer = styled.div`
   width: 100%;

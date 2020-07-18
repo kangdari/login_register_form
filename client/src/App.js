@@ -4,13 +4,15 @@ import LandingPage from './components/pages/LandingPage/Landingpage';
 import LoginPage from './components/pages/LoginPage/LoginPage';
 import RegisterPage from './components/pages/RegisterPage/RegisterPage';
 
+import Auth from './hoc/auth';
+
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' component={LandingPage} exact />
-        <Route path='/login' component={LoginPage} exact />
-        <Route path='/register' component={RegisterPage} exact />
+        <Route path='/' component={Auth(LandingPage, null)} exact />
+        <Route path='/login' component={Auth(LoginPage, false)} exact />
+        <Route path='/register' component={Auth(RegisterPage, false)} exact />
       </Switch>
     </BrowserRouter>
   );
