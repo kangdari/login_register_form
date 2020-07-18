@@ -7,7 +7,7 @@ import { registerUser } from '../../../_actions/user_action';
 
 const RegisterPage = ({ history }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,14 +27,14 @@ const RegisterPage = ({ history }) => {
   // 회원가입 오류
   useEffect(() => {
     if (userError && userError.response.status === 409) {
-      // 이메일 중복
+      // id 중복
       setError(userError.response.data.message);
       return;
     }
   }, [userError]);
 
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
+  const IdHandler = (e) => {
+    setId(e.target.value);
   };
   const nameHandler = (e) => {
     setName(e.target.value);
@@ -49,7 +49,7 @@ const RegisterPage = ({ history }) => {
   const onSumbitHandler = (e) => {
     e.preventDefault();
 
-    if ([password, confirmPassword, email].includes('')) {
+    if ([password, confirmPassword, id].includes('')) {
       setError('빈칸을 입력하세요');
       return;
     }
@@ -58,14 +58,14 @@ const RegisterPage = ({ history }) => {
       return;
     }
 
-    dispatch(registerUser({ email, password, confirmPassword }));
+    dispatch(registerUser({ id, name, password, confirmPassword }));
   };
 
   return (
     <ReisgerContainer>
       <form className='registerForm' onSubmit={onSumbitHandler}>
-        <label>Email</label>
-        <input type='email' name='email' value={email} onChange={emailHandler} />
+        <label>Id</label>
+        <input type='id' name='id' value={id} onChange={IdHandler} />
         <label>name</label>
         <input type='text' name='name' value={name} onChange={nameHandler} />
         <label>password</label>

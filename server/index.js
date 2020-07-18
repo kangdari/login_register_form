@@ -29,9 +29,14 @@ app.post('/api/users/register', async (req, res) => {
   // 클라이언트에서 회원 정보를 전달 받음.
   const user = new User(req.body);
 
+  // id 중복 체크
+  const exists = await User.findById(req.body.id);
+  if (exists) {
+    return res.status(409).json({ registerSuccess: false, message: '아이디 중복' });
+  }
+
   user.save((err, userInfo) => {
-    // email은 unique 속성
-    if (err) return res.status(409).json({ registerSuccess: false, message: '이메일 중복' });
+    if (err) return res.json({ registerSuccess: false, err });
 
     return res.status(200).json({
       registerSuccess: true,
@@ -40,11 +45,11 @@ app.post('/api/users/register', async (req, res) => {
 });
 
 app.post('/api/users/login', async (req, res) => {
-  // 요청된 이메일 체크
-  const user = await User.findOne({ email: req.body.email });
+  // 요청된 id 체크
+  const user = await User.findOne({ id: req.body.id });
 
   if (!user) {
-    return res.status(401).json({ loginSuccess: false, message: '이메일이 존재하지 않습니다.' });
+    return res.status(401).json({ loginSuccess: false, message: '아이디가 존재하지 않습니다.' });
   }
   // 비밀번호 체크
   user.comparePassword(req.body.password, (err, isMatch) => {
@@ -65,11 +70,12 @@ app.post('/api/users/login', async (req, res) => {
 
 // 로그인 유저 확인
 app.get('/api/users/auth', auth, (req, res) => {
+  // console.log(req.user);
   // auth 미들웨어 수행 시 req에서 user 정보 조회 가능
   res.status(200).json({
     _id: req.user._id,
     name: req.user.name,
-    email: req.user.email,
+    id: req.user.id,
     isAdmin: req.user.role === 0 ? false : true, // role: 1 > admin
     isAuth: true,
     role: req.user.role,

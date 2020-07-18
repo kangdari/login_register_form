@@ -10,7 +10,7 @@ const LoginPage = ({ history }) => {
     userInfo: state.user.userInfo,
     userError: state.user.userError,
   }));
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -20,7 +20,7 @@ const LoginPage = ({ history }) => {
       if (userError.response.status === 401) {
         // 서버 예외 처리 오류 message
         setError(userError.response.data.message);
-        // setError('이메일 또는 비밀번호가 틀렸습니다.');
+        // setError('id 또는 비밀번호가 틀렸습니다.');
         return;
       } else {
         setError('로그인 오류');
@@ -36,8 +36,8 @@ const LoginPage = ({ history }) => {
     }
   }, [history, userInfo.loginSuccess]);
 
-  const onEmailHandler = (e) => {
-    setEmail(e.target.value);
+  const onIdHandler = (e) => {
+    setId(e.target.value);
   };
 
   const onPasswordHandler = (e) => {
@@ -46,18 +46,18 @@ const LoginPage = ({ history }) => {
 
   const onSumbitHandler = (e) => {
     e.preventDefault();
-    if ([email, password].includes('')) {
+    if ([id, password].includes('')) {
       setError('빈 칸을 입력하세요.');
       return;
     }
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ id, password }));
   };
 
   return (
     <LoginContainer>
       <form className='loginForm' onSubmit={onSumbitHandler}>
-        <label>Email</label>
-        <input type='email' value={email} onChange={onEmailHandler} />
+        <label>Id</label>
+        <input type='id' value={id} onChange={onIdHandler} />
         <label>Password</label>
         <input type='password' value={password} onChange={onPasswordHandler} />
         {error ? <div>{error}</div> : ''}

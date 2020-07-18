@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     type: String,
     maxlength: 30,
   },
-  email: {
+  id: {
     type: String,
     trim: true,
     unique: 1, // 중복 x
@@ -46,10 +46,10 @@ userSchema.pre('save', function (next) {
   }
 });
 
-// userSchema.statics.findByEmail = function (email) {
-//   const user = this;
-//   return user.findOne({ email });
-// };
+userSchema.statics.findById = function (id) {
+  const user = this;
+  return user.findOne({ id });
+};
 
 // 비밀번호 체크 인스턴스 함수
 userSchema.methods.comparePassword = function (password, cb) {

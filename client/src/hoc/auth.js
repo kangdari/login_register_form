@@ -12,7 +12,6 @@ export default (SpecificComponent, option, adminRoute = null) => {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(authCheck()).then((res) => {
-        console.log(res);
         // 로그인 x 상태
         if (!res.payload.isAuth) {
           if (option) {
