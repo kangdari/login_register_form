@@ -1,18 +1,40 @@
-import { LOGIN_USER, REGISTER_USER, CHECK_AUTH } from '../_actions/types';
+import { handleActions } from 'redux-actions';
+import {
+  // LOGIN_USER,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILUER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_FAILUER,
+} from '../_actions/types';
 
-export default (state = {}, action) => {
-  // action의 type에 따라서 store의 state 업데이트
-  switch (action.type) {
-    case LOGIN_USER:
-      return { ...state, loginSuccess: action.payload };
-
-    case REGISTER_USER:
-      return { ...state, registerSuccess: action.payload };
-
-    case CHECK_AUTH:
-      return { ...state, userData: action.payload };
-
-    default:
-      return state;
-  }
+const initialState = {
+  userError: '', // 에러
+  userInfo: '', // 로그인, 회원가입 성공 여부
 };
+
+const user = handleActions(
+  {
+    [LOGIN_USER_SUCCESS]: (state, action) => ({
+      ...state,
+      userInfo: action.payload,
+      userError: '',
+    }),
+    [LOGIN_USER_FAILUER]: (state, action) => ({
+      ...state,
+      userInfo: '',
+      userError: action.payload,
+    }),
+    [REGISTER_USER_SUCCESS]: (state, { payload }) => ({
+      ...state,
+      userInfo: payload,
+      userError: '',
+    }),
+    [REGISTER_USER_FAILUER]: (state, action) => ({
+      ...state,
+      userError: action.payload,
+    }),
+  },
+  initialState
+);
+
+export default user;

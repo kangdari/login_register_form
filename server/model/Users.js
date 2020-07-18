@@ -46,6 +46,11 @@ userSchema.pre('save', function (next) {
   }
 });
 
+// userSchema.statics.findByEmail = function (email) {
+//   const user = this;
+//   return user.findOne({ email });
+// };
+
 // 비밀번호 체크 인스턴스 함수
 userSchema.methods.comparePassword = function (password, cb) {
   // password: client에서 넘어온 순수 비밀번호

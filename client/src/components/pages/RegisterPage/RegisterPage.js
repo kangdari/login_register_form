@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
 
 const RegisterPage = ({ history }) => {
@@ -10,7 +10,28 @@ const RegisterPage = ({ history }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { userInfo, userError } = useSelector((state) => ({
+    userInfo: state.user.userInfo,
+    userError: state.user.userError,
+  }));
+
+  // 회원가입 성공 시 login 이동
+  useEffect(() => {
+    if (userInfo.registerSuccess) {
+      history.push('/login');
+    }
+  }, [userInfo.registerSuccess, history]);
+
+  // 회원가입 오류
+  useEffect(() => {
+    if (userError && userError.response.status === 409) {
+      // 이메일 중복
+      setError(userError.response.data.message);
+      return;
+    }
+  }, [userError]);
 
   const emailHandler = (e) => {
     setEmail(e.target.value);
@@ -28,17 +49,16 @@ const RegisterPage = ({ history }) => {
   const onSumbitHandler = (e) => {
     e.preventDefault();
 
+    if ([password, confirmPassword, email].includes('')) {
+      setError('빈칸을 입력하세요');
+      return;
+    }
     if (password !== confirmPassword) {
-      return alert('비밀번호가 서로 다릅니다');
+      setError('비밀번호가 서로 다릅니다');
+      return;
     }
 
-    dispatch(registerUser({ email, password, confirmPassword })).then((res) => {
-      if (res.payload.registerSuccess) {
-        history.push('/login');
-      } else {
-        alert('register error');
-      }
-    });
+    dispatch(registerUser({ email, password, confirmPassword }));
   };
 
   return (
@@ -57,6 +77,8 @@ const RegisterPage = ({ history }) => {
           value={confirmPassword}
           onChange={confirmPasswordHandler}
         />
+        {error ? <div>{error}</div> : ''}
+
         <button type='submit'>Register</button>
       </form>
     </ReisgerContainer>

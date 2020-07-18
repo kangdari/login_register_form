@@ -1,29 +1,42 @@
 import axios from 'axios';
-import { LOGIN_USER, REGISTER_USER, CHECK_AUTH } from './types';
+import {
+  LOGIN_USER,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILUER,
+  REGISTER_USER,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_FAILUER,
+} from './types';
 
-export const loginUser = (dataToSubmit) => {
-  const req = axios.post('/api/users/login', dataToSubmit).then((res) => res.data);
+export const loginUser = (dataToSubmit) => async (dispatch) => {
+  dispatch({ type: LOGIN_USER });
 
-  return {
-    type: LOGIN_USER,
-    payload: req, // === action.payload
-  };
+  try {
+    const res = await axios.post('/api/users/login', dataToSubmit);
+    dispatch({
+      type: LOGIN_USER_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOGIN_USER_FAILUER,
+      payload: err,
+    });
+  }
 };
 
-export const registerUser = (dataToSubmit) => {
-  const req = axios.post('/api/users/register', dataToSubmit).then((res) => res.data);
-
-  return {
-    type: REGISTER_USER,
-    payload: req, // === action.payload
-  };
-};
-
-export const checkAuth = () => {
-  const req = axios.get('/api/users/auth').then((res) => res.data);
-
-  return {
-    type: CHECK_AUTH,
-    payload: req, // === action.payload
-  };
+export const registerUser = (dataToSubmit) => async (dispatch) => {
+  dispatch({ type: REGISTER_USER });
+  try {
+    const res = await axios.post('/api/users/register', dataToSubmit);
+    dispatch({
+      type: REGISTER_USER_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: REGISTER_USER_FAILUER,
+      payload: err,
+    });
+  }
 };

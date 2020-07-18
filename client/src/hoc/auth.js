@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { checkAuth } from '../_actions/user_action';
+import { authCheck } from '../_actions/auth_action';
 
 export default (SpecificComponent, option, adminRoute = null) => {
   // option
@@ -11,7 +11,8 @@ export default (SpecificComponent, option, adminRoute = null) => {
   const AuthenticationCheck = ({ history }) => {
     const dispatch = useDispatch();
     useEffect(() => {
-      dispatch(checkAuth()).then((res) => {
+      dispatch(authCheck()).then((res) => {
+        console.log(res);
         // 로그인 x 상태
         if (!res.payload.isAuth) {
           if (option) {
