@@ -5,6 +5,7 @@ import {
   LOGIN_USER_FAILUER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILUER,
+  LOGOUT,
 } from '../_actions/types';
 
 const initialState = {
@@ -32,6 +33,10 @@ const user = handleActions(
     [REGISTER_USER_FAILUER]: (state, action) => ({
       ...state,
       userError: action.payload,
+    }),
+    [LOGOUT]: (state) => ({
+      ...state,
+      userInfo: '',
     }),
   },
   initialState

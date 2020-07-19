@@ -14,7 +14,7 @@ const auth = handleActions(
     [LOGOUT]: (state) => ({
       ...state,
       auth: {
-        isAuth: false,
+        isAuth: '',
       },
     }),
   },

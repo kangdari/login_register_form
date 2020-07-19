@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
+import { authCheck } from '../../../_actions/auth_action';
 
 const LoginPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { userInfo, userError } = useSelector((state) => ({
+  const { userInfo, userError, auth } = useSelector((state) => ({
     userInfo: state.user.userInfo,
     userError: state.user.userError,
+    auth: state.auth.auth,
   }));
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +36,7 @@ const LoginPage = ({ history }) => {
     if (userInfo.loginSuccess) {
       history.push('/');
     }
-  }, [history, userInfo.loginSuccess]);
+  }, [history, userInfo.loginSuccess, auth.isAuth]);
 
   const onIdHandler = (e) => {
     setId(e.target.value);
@@ -51,6 +53,7 @@ const LoginPage = ({ history }) => {
       return;
     }
     dispatch(loginUser({ id, password }));
+    dispatch(authCheck());
   };
 
   return (
@@ -61,7 +64,7 @@ const LoginPage = ({ history }) => {
         <label>Password</label>
         <input type='password' value={password} onChange={onPasswordHandler} />
         {error ? <div>{error}</div> : ''}
-        <button tyoe='sumbit'>Login</button>
+        <button type='sumbit'>Login</button>
       </form>
     </LoginContainer>
   );

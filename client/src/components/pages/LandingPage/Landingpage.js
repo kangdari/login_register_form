@@ -16,7 +16,7 @@ const Landingpage = () => {
 
 const LandingCondtainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 200vh;
   display: flex;
   justify-content: center;
   align-items: center;
