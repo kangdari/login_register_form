@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { authCheck } from '../_actions/auth_action';
+import { authCheck } from '../_actions/user_action';
 
 export default (SpecificComponent, option, adminRoute = null) => {
   // option

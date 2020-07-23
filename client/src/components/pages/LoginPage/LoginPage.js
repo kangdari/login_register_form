@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../../_actions/user_action';
-import { authCheck } from '../../../_actions/auth_action';
+import { loginUser, authCheck } from '../../../_actions/user_action';
 
 const LoginPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { userInfo, userError, auth } = useSelector((state) => ({
-    userInfo: state.user.userInfo,
+  const { login, userError, userData } = useSelector((state) => ({
+    login: state.user.login,
     userError: state.user.userError,
-    auth: state.auth.auth,
+    userData: state.user.userData,
   }));
+
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,10 +33,10 @@ const LoginPage = ({ history }) => {
 
   // 로그인 성공 처리
   useEffect(() => {
-    if (userInfo.loginSuccess) {
+    if (login.loginSuccess) {
       history.push('/');
     }
-  }, [history, userInfo.loginSuccess, auth.isAuth]);
+  }, [history, login.loginSuccess, userData.isAuth]);
 
   const onIdHandler = (e) => {
     setId(e.target.value);

@@ -6,37 +6,46 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILUER,
   LOGOUT,
+  AUTH_CHECK,
 } from '../_actions/types';
 
 const initialState = {
   userError: '', // 에러
-  userInfo: '', // 로그인, 회원가입 성공 여부
+  login: '',
+  register: '',
+  userData: '',
 };
 
 const user = handleActions(
   {
     [LOGIN_USER_SUCCESS]: (state, action) => ({
       ...state,
-      userInfo: action.payload,
+      login: action.payload,
       userError: '',
     }),
     [LOGIN_USER_FAILUER]: (state, action) => ({
       ...state,
-      userInfo: '',
+      login: '',
       userError: action.payload,
     }),
     [REGISTER_USER_SUCCESS]: (state, { payload }) => ({
       ...state,
-      userInfo: payload,
+      register: payload,
       userError: '',
     }),
     [REGISTER_USER_FAILUER]: (state, action) => ({
       ...state,
+      register: '',
       userError: action.payload,
     }),
     [LOGOUT]: (state) => ({
       ...state,
-      userInfo: '',
+      login: '',
+      userData: '',
+    }),
+    [AUTH_CHECK]: (state, action) => ({
+      ...state,
+      userData: action.payload,
     }),
   },
   initialState

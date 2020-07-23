@@ -12,17 +12,17 @@ const RegisterPage = ({ history }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { userInfo, userError } = useSelector((state) => ({
-    userInfo: state.user.userInfo,
+  const { register, userError } = useSelector((state) => ({
+    register: state.user.register,
     userError: state.user.userError,
   }));
 
   // 회원가입 성공 시 login 이동
   useEffect(() => {
-    if (userInfo.registerSuccess) {
+    if (register.registerSuccess) {
       history.push('/login');
     }
-  }, [userInfo.registerSuccess, history]);
+  }, [register.registerSuccess, history]);
 
   // 회원가입 오류
   useEffect(() => {
