@@ -1,39 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../Common/Button';
 import palette from '../../utils/palette';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../_actions/auth_action';
+import RightMenu from './Section/RightMenu';
+import LeftMenu from './Section/LeftMenu';
 
 const Navbar = () => {
-  const dispatch = useDispatch();
-  const { auth } = useSelector((state) => ({
-    auth: state.auth.auth,
-  }));
-
-  const onClick = () => {
-    dispatch(logout());
-  };
-
   return (
     <NavbarBlock>
       <div className='navbar'>
         <h2 className='logo'>Logo</h2>
-        <div className='right_menu'>
-          <Button to='/'>Home</Button>
-          {/* 링크 추가 */}
-          <Button to='/about'>About</Button>
-        </div>
         <div className='left_menu'>
-          {!auth.isAuth ? (
-            <>
-              <Button to='/register'>회원가입</Button>
-              <Button to='/login'>로그인</Button>
-            </>
-          ) : (
-            <Button onClick={onClick}>로그아웃</Button>
-          )}
+          <LeftMenu />
+        </div>
+        <div className='right_menu'>
+          <RightMenu />
         </div>
       </div>
     </NavbarBlock>
@@ -59,7 +39,7 @@ const NavbarBlock = styled.div`
     height: 40px;
   }
 
-  .left_menu {
+  .right_menu {
     margin-left: auto;
   }
 `;

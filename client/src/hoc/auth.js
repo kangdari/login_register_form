@@ -23,7 +23,7 @@ export default (SpecificComponent, option, adminRoute = null) => {
           if (adminRoute && !res.payload.isAdmin) {
             // 관리자 사이트에 접근, 로그인 사용자가 관리자가 아닐 때 home으로 이동
             history.push('/');
-          } else if (!option) {
+          } else if (option === false) {
             // 로그인 유저 출입이 안되는 곳 접근 시 home으로 이동
             history.push('/');
           }
